@@ -1,0 +1,14 @@
+$background-color: white;
+$text-color: rgba(0,0,0,.87);
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: $background-color;
+  text-align: center;
+  color: $text-color;
+}
+
+@import 'CitiesTable';
