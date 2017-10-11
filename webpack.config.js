@@ -1,5 +1,6 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 const publidDir = path.join(__dirname, '/public');
 module.exports = [
@@ -52,6 +53,9 @@ module.exports = [
     },
     plugins: [
       new ExtractTextPlugin('bundle.css'),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      })
     ],
   },
 ];

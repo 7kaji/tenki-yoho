@@ -5,7 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SearchForm from './SearchForm';
 import CitiesTable from './CitiesTable';
 
-const WEATER_API_ENDPOINT = '/api/v1/';
+const WEATHER_API_ENDPOINT = (process.env.NODE_ENV === 'production') ? '/api/v1/' : 'http://localhost:5000/api/v1/';
 
 class App extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class App extends Component {
 
   handlePlaceSubmit(place) {
     axios
-      .get(`${WEATER_API_ENDPOINT}${place}`)
+      .get(`${WEATHER_API_ENDPOINT}${place}`)
       .then((results) => {
         switch (results.status) {
           case 200: {
