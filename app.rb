@@ -35,6 +35,6 @@ class App < Sinatra::Base
   end
 
   get '/' do
-    redirect 'index.html'
+    send_file File.join(settings.public_folder, 'index.html')
   end
 end
