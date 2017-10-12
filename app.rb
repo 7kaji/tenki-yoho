@@ -35,6 +35,6 @@ class App < Sinatra::Base
   end
 
   get '/' do
-    open('public/index.html').read
+    redirect 'index.html'
   end
 end
