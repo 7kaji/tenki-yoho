@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
 
-const CityRow = ({ city }) => (
-  <TableRow>
-    <TableRowColumn>{city.location.city}</TableRowColumn>
-    <TableRowColumn>{city.forecasts[0].telop}</TableRowColumn>
-    <TableRowColumn><img src={city.forecasts[0].image.url} alt={city.title} /></TableRowColumn>
-    <TableRowColumn>最高 : {city.forecasts[0].temperature.max.celsius}度</TableRowColumn>
-    <TableRowColumn>最低 : {city.forecasts[0].temperature.min.celsius}度</TableRowColumn>
-  </TableRow>
-);
+const CityRow = ({ city }) => {
+  const todayForecasts = city.forecasts[0];
+  const max = (todayForecasts.temperature.max == null) ? '--' : todayForecasts.temperature.max.celsius;
+  const min = (todayForecasts.temperature.min == null) ? '--' : todayForecasts.temperature.min.celsius;
+  return (
+    <TableRow>
+      <TableRowColumn>{city.location.city}</TableRowColumn>
+      <TableRowColumn>{todayForecasts.telop}</TableRowColumn>
+      <TableRowColumn><img src={todayForecasts.image.url} alt={city.title} /></TableRowColumn>
+      <TableRowColumn>最高 : {max}度</TableRowColumn>
+      <TableRowColumn>最低 : {min}度</TableRowColumn>
+    </TableRow>
+  );
+};
 
 CityRow.propTypes = {
   city: PropTypes.shape({
