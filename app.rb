@@ -35,6 +35,8 @@ class App < Sinatra::Base
   end
 
   get '/' do
-    File.read File.join(settings.public_folder, 'index.html')
+    puts "--------------"
+    puts File.join('public', 'index.html')
+    File.read(File.join('public', 'index.html'))
   end
 end
