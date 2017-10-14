@@ -3,6 +3,7 @@
 require 'json'
 require 'yaml'
 require 'bundler'
+require 'sinatra/reloader' if :development
 Bundler.require
 
 class App < Sinatra::Base
@@ -10,6 +11,10 @@ class App < Sinatra::Base
   set :default_charset, 'utf-8'
   WEATHER_API_HOST = 'http://weather.livedoor.com'
   WEATHER_API_PATH = '/forecast/webservice/json/v1'
+
+  configure :development do
+    register Sinatra::Reloader
+  end
 
   before do
     @japan = YAML.load_file('japan.yml')
