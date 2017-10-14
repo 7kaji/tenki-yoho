@@ -26,12 +26,10 @@ class App < Sinatra::Base
     pref = params[:pref].to_sym
     return status 404 unless @japan.include?(pref)
 
-    data = []
-    @japan[pref].each do |city, no|
-      # data.merge!({ city => JSON.parse(Faraday.new(url: WEATHER_API_HOST).get("#{WEATHER_API_PATH}?city=#{no}").body).to_a })
-      data << JSON.parse(Faraday.new(url: WEATHER_API_HOST).get("#{WEATHER_API_PATH}?city=#{no}").body).to_h
-    end
-    data.to_json
+    @japan[pref].inject([]) do |data, city|
+       city_number = city.last
+       data << JSON.parse(Faraday.new(url: WEATHER_API_HOST).get("#{WEATHER_API_PATH}?city=#{city_number}").body).to_h
+    end.to_json
   end
 
   get '/' do
