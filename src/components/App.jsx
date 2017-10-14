@@ -1,67 +1,57 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import AppBar from 'material-ui/AppBar';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+} from 'react-router-dom';
 
-import SearchForm from './SearchForm';
-import CitiesTable from './CitiesTable';
-
-const WEATHER_API_ENDPOINT = (process.env.NODE_ENV === 'production') ? '/api/v1/' : 'http://localhost:5000/api/v1/';
+import SearchPage from './SearchPage';
+import About from './About';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      titile: '',
-      cities: [],
+      open: false,
     };
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
-  setErrorMessage(message) {
+  handleToggle() {
     this.setState({
-      title: message,
+      open: !this.state.open,
     });
-  }
-
-  handlePlaceSubmit(place) {
-    axios
-      .get(`${WEATHER_API_ENDPOINT}${place}`)
-      .then((results) => {
-        switch (results.status) {
-          case 200: {
-            this.setState({
-              cities: results.data,
-            });
-            break;
-          }
-          default: {
-            this.setErrorMessage('エラーが発生しました');
-          }
-        }
-      })
-      .catch((error) => {
-        switch (error.response.status) {
-          case 404: {
-            this.setErrorMessage('結果が見つかりませんでした');
-            break;
-          }
-          default: {
-            this.setErrorMessage('エラーが発生しました');
-          }
-        }
-      });
   }
 
   render() {
     return (
-      <MuiThemeProvider>
-        <div>
-          <h1>天気予報</h1>
-          <SearchForm onSubmit={place => this.handlePlaceSubmit(place)} />
-          <br />
-          <br />
-          <CitiesTable cities={this.state.cities} />
-        </div>
-      </MuiThemeProvider>
+      <Router>
+        <MuiThemeProvider>
+          <div className="app">
+            <AppBar
+              title="天気予報"
+              iconClassNameRight="muidocs-icon-navigation-expand-more"
+              onLeftIconButtonTouchTap={this.handleToggle}
+              onTitleTouchTap={this.handleToggle}
+              onRightIconButtonTouchTap={this.handleToggle}
+            />
+            <Drawer open={this.state.open}>
+              <MenuItem><Link to="/">天気検索</Link></MenuItem>
+              <MenuItem><Link to="/about">このサイトについて</Link></MenuItem>
+            </Drawer>
+            <Switch>
+              <Route exact path="/" component={SearchPage} />
+              <Route exact path="/about" component={About} />
+            </Switch>
+          </div>
+        </MuiThemeProvider>
+      </Router>
     );
   }
 }
