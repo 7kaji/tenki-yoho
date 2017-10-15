@@ -23,6 +23,7 @@ GEM
     rack-cors (1.0.1)
     rack-protection (2.0.0)
       rack
+    rake (12.1.0)
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -51,6 +52,7 @@ DEPENDENCIES
   puma
   rack-cache
   rack-cors
+  rake
   sinatra
   sinatra-contrib
   sinatra-cross_origin

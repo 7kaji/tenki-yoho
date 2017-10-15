@@ -15,6 +15,7 @@ gem 'dotenv'
 gem 'faraday'
 gem 'rack-cache'
 gem 'dalli'
+gem 'rake'
 
 gem 'pry', group: 'development'
 # gem 'rack-ssl-enforcer', group: 'production'
