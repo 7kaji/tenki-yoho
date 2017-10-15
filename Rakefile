@@ -1,5 +1,5 @@
 #! /usr/bin/env ruby
 
-require './App'
+require './app'
 
 Dir.glob('lib/tasks/*.rake').each { |r| load r}
