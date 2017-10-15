@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
+import queryString from 'query-string';
 
 import SearchForm from './SearchForm';
 import CitiesTable from './CitiesTable';
@@ -15,6 +17,14 @@ class SearchPage extends Component {
     };
   }
 
+  componentDidMount() {
+    const params = queryString.parse(this.props.location.search);
+    const place = params.place;
+    if (place && place.length > 0) {
+      this.startSearch(place);
+    }
+  }
+
   setErrorMessage(message) {
     this.setState({
       title: message,
@@ -22,6 +32,11 @@ class SearchPage extends Component {
   }
 
   handlePlaceSubmit(place) {
+    this.props.history.push(`/?place=${place}`);
+    this.startSearch(place);
+  }
+
+  startSearch(place) {
     axios
       .get(`${WEATHER_API_ENDPOINT}${place}`)
       .then((results) => {
@@ -62,5 +77,10 @@ class SearchPage extends Component {
     );
   }
 }
+
+SearchPage.propTypes = {
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+};
 
 export default SearchPage;
