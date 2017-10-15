@@ -27,6 +27,6 @@ use Rack::Cors do
   # end
 end
 
-use Rack::Static, urls: ['/' => 'index.html'], root: 'public'
+use Rack::Static, urls: {'/' => 'index.html'}, root: 'public'
 
 run App
