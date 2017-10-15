@@ -14,15 +14,24 @@ class SearchPage extends Component {
     this.state = {
       titile: '',
       cities: [],
+      place: this.getPlaceParam() || 'tokyo',
     };
   }
 
   componentDidMount() {
+    const place = this.getPlaceParam();
+    if (place) {
+      this.startSearch();
+    }
+  }
+
+  getPlaceParam() {
     const params = queryString.parse(this.props.location.search);
     const place = params.place;
     if (place && place.length > 0) {
-      this.startSearch(place);
+      return place;
     }
+    return null;
   }
 
   setErrorMessage(message) {
@@ -31,14 +40,19 @@ class SearchPage extends Component {
     });
   }
 
-  handlePlaceSubmit(place) {
-    this.props.history.push(`/?place=${place}`);
-    this.startSearch(place);
+  handlePlaceChange(place) {
+    this.setState({ place });
   }
 
-  startSearch(place) {
+  handlePlaceSubmit(e) {
+    e.preventDefault();
+    this.props.history.push(`/?place=${this.state.place}`);
+    this.startSearch();
+  }
+
+  startSearch() {
     axios
-      .get(`${WEATHER_API_ENDPOINT}${place}`)
+      .get(`${WEATHER_API_ENDPOINT}${this.state.place}`)
       .then((results) => {
         switch (results.status) {
           case 200: {
@@ -69,7 +83,11 @@ class SearchPage extends Component {
     return (
       <div>
         <br />
-        <SearchForm onSubmit={place => this.handlePlaceSubmit(place)} />
+        <SearchForm
+          place={this.state.place}
+          onPlaceChange={place => this.handlePlaceChange(place)}
+          onSubmit={e => this.handlePlaceSubmit(e)}
+        />
         <br />
         <br />
         <CitiesTable cities={this.state.cities} />
