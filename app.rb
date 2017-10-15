@@ -37,7 +37,6 @@ class App < Sinatra::Base
     end.to_json
   end
 
-  get '/' do
-    redirect 'index.html'
-  end
+  # get '/' do
+  # end
 end
