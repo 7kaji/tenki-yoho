@@ -42,8 +42,8 @@ class App extends Component {
               onRightIconButtonTouchTap={this.handleToggle}
             />
             <Drawer open={this.state.open}>
-              <MenuItem><Link to="/">天気検索</Link></MenuItem>
-              <MenuItem><Link to="/about">このサイトについて</Link></MenuItem>
+              <Link to="/"><MenuItem>天気検索</MenuItem></Link>
+              <Link to="/about"><MenuItem>このサイトについて</MenuItem></Link>
             </Drawer>
             <Switch>
               <Route exact path="/" component={SearchPage} />
