@@ -1,10 +1,18 @@
 require './app'
 
+mem_client = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
+                               :username => ENV["MEMCACHIER_USERNAME"],
+                               :password => ENV["MEMCACHIER_PASSWORD"],
+                               :failover => true,
+                               :socket_timeout => 1.5,
+                               :socket_failure_delay => 0.2,
+                               :value_max_bytes => 10485760)
+
 use Rack::Cache,
   verbose: true,
   default_ttl: 30 * 60,
-  metastore:   ENV['MEMCACHE_SERVERS'] ? "memcached://#{ENV['MEMCACHE_SERVERS']}/meta" : 'file:tmp/cache/rack/meta',
-  entitystore: ENV['MEMCACHE_SERVERS'] ? "memcached://#{ENV['MEMCACHE_SERVERS']}/body" : 'file:tmp/cache/rack/entity'
+  metastore:   ENV["MEMCACHIER_SERVERS"].nil? ? 'file:tmp/cache/rack/meta' : mem_client,
+  entitystore: ENV["MEMCACHIER_SERVERS"].nil? ? 'file:tmp/cache/rack/entity' : mem_client
 
 use Rack::Cors do
   allow do
