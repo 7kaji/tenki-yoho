@@ -2,9 +2,7 @@
 
 ## Requirement
 
-- Ruby
 - Bundler
-- React
 - Yarn
 
 ## Dev
@@ -13,10 +11,10 @@
 $ git clone git@github.com:7kaji/tenki-yoho.git
 $ cd tenki-yoho
 $ bundle install --path vendor/bundler
-$ bundle exec foreman start
-
 $ yarn install
-$ yarn run start
+$ bundle exec foreman start -f Procfile.dev
+
+$ open http://localhost:8080
 ```
 
 ## Special thanks :pray:
