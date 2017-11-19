@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui-next/Button';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
@@ -63,10 +63,9 @@ const SearchForm = (props) => {
         {Object.keys(japan).map(key => (<MenuItem key={key} value={key} primaryText={japan[key]} />))}
       </SelectField>
       <br />
-      <RaisedButton
-        label="みる"
-        type="submit"
-      />
+      <Button raised type="submit">
+        みる
+      </Button>
     </form>
   );
 };
